@@ -1,7 +1,7 @@
-public class NumberMemento {
+class Memento {
     private final int number;
 
-    public NumberMemento(int number) {
+    public Memento(int number) {
         this.number = number;
     }
 
