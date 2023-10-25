@@ -14,12 +14,12 @@ class Asiakas implements Runnable {
     @Override
     public void run() {
         Memento memento = arvuuttaja.liityPeliin();
-        System.out.println(Thread.currentThread().getId() + ": Arvuuttaja arpoo numeron: " + memento.getNumber());
+        System.out.println("For thread " + Thread.currentThread().getId() + ": Arvuuttaja arpoo numeron: " + memento.getNumber());
         while (!arvuuttaja.tarkistaArvaus(memento, arvaus)) {
             arvaus = new Random().nextInt(100);
-            System.out.println(Thread.currentThread().getId() + ": Arvaus: " + arvaus);
+            System.out.println("Thread " + Thread.currentThread().getId() + ": Arvaus: " + arvaus);
         }
-        System.out.println(Thread.currentThread().getId() + ": Voitin! Numeroni oli " + memento.getNumber());
+        System.out.println("Thread " + Thread.currentThread().getId() + ": Voitin! Numeroni oli " + memento.getNumber());
         latch.countDown();
     }
 }
