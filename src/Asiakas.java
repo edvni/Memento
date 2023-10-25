@@ -1,25 +1,22 @@
 import java.util.Random;
-import java.util.concurrent.CountDownLatch;
 
+// Pelaaja joka osallistuu peliin
 class Asiakas implements Runnable {
     private Arvuuttaja arvuuttaja;
+    private Memento memento;
     private int arvaus;
-    private CountDownLatch latch;
 
-    public Asiakas(Arvuuttaja arvuuttaja, CountDownLatch latch) {
+    public Asiakas(Arvuuttaja arvuuttaja) {
         this.arvuuttaja = arvuuttaja;
-        this.latch = latch;
     }
 
     @Override
     public void run() {
-        Memento memento = arvuuttaja.liityPeliin();
-        System.out.println("For thread " + Thread.currentThread().getId() + ": Arvuuttaja arpoo numeron: " + memento.getNumber());
+        memento = arvuuttaja.liityPeliin(); // liity peliin ja saa memento-olio
         while (!arvuuttaja.tarkistaArvaus(memento, arvaus)) {
-            arvaus = new Random().nextInt(100);
+            arvaus = new Random().nextInt(100); // arvaa satunnainen numero
             System.out.println("Thread " + Thread.currentThread().getId() + ": Arvaus: " + arvaus);
         }
-        System.out.println("Thread " + Thread.currentThread().getId() + ": Voitin! Numeroni oli " + memento.getNumber());
-        latch.countDown();
+        System.out.println(Thread.currentThread().getId() + ": Voitin! Numeroni oli " + memento.getSecretNumber());
     }
 }

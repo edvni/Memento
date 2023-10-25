@@ -1,25 +1,30 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
+// Arvuuttaja huolehtii pelistä ja pelaajien liittymisestä
 class Arvuuttaja {
-    private List<Memento> mementos = new ArrayList<>();
+    private int[] secretNumbers; // kaikkien salaiset numerot
+    private int nextIndex; // seuraavan liittyvän pelaajan indeksi
 
+    public Arvuuttaja(int playerCount) {
+        secretNumbers = new int[playerCount];
+        for (int i = 0; i < playerCount; i++) {
+            secretNumbers[i] = new Random().nextInt(100); // numero jokaiselle pelaajalle
+        }
+        nextIndex = 0; // aloita ensimmäisestä pelaajasta
+    }
+
+    // Pelaaja liittyy peliin ja saa memento-olion, jossa on hänen salainen numero
     public Memento liityPeliin() {
-        // Arvotaan luku ja tallennetaan se Mementoon
-        int secretNumber = new Random().nextInt(100);
-        Memento memento = new Memento(secretNumber);
-        mementos.add(memento);
-        return memento;
+        if (nextIndex < secretNumbers.length) {
+            int secretNumber = secretNumbers[nextIndex]; // pelaajan salainen numero
+            nextIndex++;
+            return new Memento(secretNumber);
+        }
+        return null; // Kaikki pelaajat ovat jo liittyneet peliin
     }
 
+    // Onko pelaajan arvaus oikeien verrattuna hänen memento-olioonsa
     public boolean tarkistaArvaus(Memento memento, int arvaus) {
-        // Tarkistetaan arvaus Mementon avulla
-        return memento.getNumber() == arvaus;
-    }
-
-    public boolean onkoPeliPaattynyt() {
-        // Peli päättyy, kun kaikki ovat arvanneet oikein
-        return mementos.stream().allMatch(m -> m.getNumber() == mementos.get(0).getNumber());
+        return memento.getSecretNumber() == arvaus;
     }
 }

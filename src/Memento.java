@@ -1,11 +1,12 @@
+// Memento-luokka tallentaa pelaajan tilan, eli salaisen numeron
 class Memento {
-    private final int number;
+    private final int secretNumber;
 
-    public Memento(int number) {
-        this.number = number;
+    public Memento(int secretNumber) {
+        this.secretNumber = secretNumber;
     }
 
-    public int getNumber() {
-        return number;
+    public int getSecretNumber() {
+        return secretNumber;
     }
 }
